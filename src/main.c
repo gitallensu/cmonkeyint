@@ -26,7 +26,7 @@ typedef enum token{
 } Token;
 
 _Bool isLetter(char c){
-    return ('a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || c == '_');
+    return (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || c == '_');
 }
 
 int readFile(char *filename){
