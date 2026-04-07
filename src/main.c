@@ -1,33 +1,24 @@
+#include <assert.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <stdlib.h>
+#include "token.h"
 
 #define BUFF_SIZE 1024
+#define SAMPLE_FOLDER "sample_monkeys/"
 
+typedef enum {
+    KEYWORD_LET,
+    KEYWORD_FUNC,
+    COUNT_KEYWORD,
+} Keywords;
 
-typedef enum token{
-    ILLEGAL = 128,
-    FILEEND,
-    IDENT,
-    INT,
+const char *keywords[COUNT_KEYWORD]={
+    [KEYWORD_LET] = "let",
+    [KEYWORD_FUNC] = "func",
+};
 
-    ASSIGN,
-    PLUS,
-
-    COMMA,
-    SEMICOLON,
-
-    LPAREN,
-    RPAREN,
-    LBRACE,
-    RBRACE,
-
-    FUNCTION,
-    LET
-} Token;
-
-_Bool isLetter(char c){
-    return (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || c == '_');
-}
 
 int readFile(char *filename){
     FILE *fptr;
@@ -38,8 +29,11 @@ int readFile(char *filename){
         return 1;
     }
     int readchars = fread(buf, 1, BUFF_SIZE, fptr);
-    for (int i = 0; i < readchars; i++){
-        printf("%c: %d\n", buf[i], isLetter(buf[i]));
+    char *cur = buf;
+    while (*cur != '\0'){
+        Token tok = generateToken(cur);
+        cur = tok.end +1;
+        printf("%s: %.*s\n", tokentypes[tok.type], (int)(cur - tok.start), tok.start);
     }
     fclose(fptr);
     return 0; 
@@ -47,8 +41,6 @@ int readFile(char *filename){
 
 int main(){
 
-    readFile("008_example.mnky");
+    readFile(SAMPLE_FOLDER"028_example.mnky");
     return 0;
 }
-
-
