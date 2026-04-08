@@ -10,14 +10,6 @@ enum token_type{
     COUNT_TT,
 };
 
-const char *tokentypes[COUNT_TT]={
-    [TT_SYMBOL] = "SYMBOL",
-    [TT_WHITESPACE] = "WHITESPACE",
-    [TT_INVALID] = "INVALID",
-    [TT_SPECIAL] = "SPECIAL",
-    [TT_WORD] = "LITERAL",
-    [TT_STRING] = "STRING",
-};
 typedef struct token{
     enum token_type type;
     const char *start;

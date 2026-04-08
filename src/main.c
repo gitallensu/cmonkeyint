@@ -8,17 +8,6 @@
 #define BUFF_SIZE 1024
 #define SAMPLE_FOLDER "sample_monkeys/"
 
-typedef enum {
-    KEYWORD_LET,
-    KEYWORD_FUNC,
-    COUNT_KEYWORD,
-} Keywords;
-
-const char *keywords[COUNT_KEYWORD]={
-    [KEYWORD_LET] = "let",
-    [KEYWORD_FUNC] = "func",
-};
-
 
 int readFile(char *filename){
     FILE *fptr;

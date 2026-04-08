@@ -1,6 +1,28 @@
+#include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "token.h"
+
+typedef enum {
+    KEYWORD_LET,
+    KEYWORD_FUNC,
+    COUNT_KEYWORD,
+} Keywords;
+
+const char *tokentypes[COUNT_TT]={
+    [TT_SYMBOL] = "SYMBOL",
+    [TT_WHITESPACE] = "WHITESPACE",
+    [TT_INVALID] = "INVALID",
+    [TT_SPECIAL] = "SPECIAL",
+    [TT_WORD] = "LITERAL",
+    [TT_STRING] = "STRING",
+};
+
+const char *keywords[COUNT_KEYWORD]={
+    [KEYWORD_LET] = "let",
+    [KEYWORD_FUNC] = "func",
+};
+
 _Bool isLetter(char c){
     return (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || c == '_');
 }
