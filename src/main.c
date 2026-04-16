@@ -16,13 +16,18 @@ enum ast_type{
   AST_,
   AST_LITERAL,
   AST_EXPRESSION,
+  AST_T_COUNT,
 };
 
 struct Node{
-  
+  enum ast_type a_type;
   Token *t;
   Node *left;
   Node *rght;
+};
+
+char *keywords[] = {
+  "fn", "let", "true", "false", "if", "else", "return",
 };
 
 typedef struct lexer {
