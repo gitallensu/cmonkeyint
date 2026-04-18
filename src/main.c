@@ -7,24 +7,9 @@
 #include <string.h>
 
 #define BUFF_SIZE 64
+#define INITIAL_T_CAP 64
 #define SAMPLE_FOLDER "sample_monkeys/"
 
-typedef struct Node Node;
-enum ast_type{
-  AST_ASSIGNMENT,
-  AST_SEQUENCE,
-  AST_,
-  AST_LITERAL,
-  AST_EXPRESSION,
-  AST_T_COUNT,
-};
-
-struct Node{
-  enum ast_type a_type;
-  Token *t;
-  Node *left;
-  Node *rght;
-};
 
 char *keywords[] = {
   "fn", "let", "true", "false", "if", "else", "return",
@@ -36,7 +21,23 @@ typedef struct lexer {
   size_t col;
   size_t row;
   Token *tokens; 
+  size_t tok_num;
+  size_t tok_capacity;
 } Lexer;
+
+int appendToken(Lexer *l, Token tok){
+  if (l->tok_num >= l->tok_capacity){
+    l->tok_capacity *= 2;
+    Token *temp = realloc(l->tokens, l->tok_capacity);
+    if (temp == NULL){
+      perror("appendToken realloc");
+      return 1;
+    }
+    l->tokens = temp;
+  }
+  l->tokens[l->tok_num++] = tok;
+  return 0;
+}
 
 int readFile(char *filename, Lexer *l) {
   FILE *fptr;
@@ -65,7 +66,8 @@ int readFile(char *filename, Lexer *l) {
     while (*cur != '\0') {
       Token tok = generateToken(cur);
       cur += tok.length;
-      printToken(tok);
+      if(appendToken(l, tok) != 0)
+        goto error;
     }
   }
 null_handle:
@@ -89,6 +91,13 @@ int main(void) {
   Lexer l = {0};
   l.buf_size = BUFF_SIZE;
   l.buf = calloc(l.buf_size, sizeof(char));
+  l.tokens = calloc(INITIAL_T_CAP, sizeof(Token));
+  l.tok_capacity = INITIAL_T_CAP;
+  l.tok_num = 0;
   readFile(SAMPLE_FOLDER "028_example.mnky", &l);
+
+  for (size_t i = 0; i < l.tok_num; i++){
+    printToken(l.tokens[i]);
+  }
   return 0;
 }
