@@ -42,6 +42,11 @@ void printToken(Token t){
     [KEYWORD_LET] = "let",
     [KEYWORD_FUNC] = "func",
 };*/
+/*
+_Bool (* tokenEndFunction[COUNT_TT]) (char c) = {
+    [TT_STRING_LIT] = 
+}
+//*/
 
 _Bool isLetter(char c){
     return (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || c == '_');
@@ -49,6 +54,7 @@ _Bool isLetter(char c){
 _Bool isSymbol(char c){
     return (('!' <= c && c <= '@') || ('[' <= c && c <= '^'));
 }
+
 Token* generateToken_String(char *cur){
     Token *tok = TOKEN_INIT(cur);
     char string_delim = *cur;

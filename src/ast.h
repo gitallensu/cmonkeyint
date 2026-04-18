@@ -18,8 +18,10 @@ struct Node{
   Node *rght;
 };
 
+
 /**
 (Node *) (Token *t) nodeFactories{
     
 }
 //*/
+
