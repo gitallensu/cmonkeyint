@@ -28,7 +28,7 @@ typedef struct lexer {
 int appendToken(Lexer *l, Token tok){
   if (l->tok_num >= l->tok_capacity){
     l->tok_capacity *= 2;
-    Token *temp = realloc(l->tokens, l->tok_capacity);
+    Token *temp = realloc(l->tokens, l->tok_capacity * sizeof(Token));
     if (temp == NULL){
       perror("appendToken realloc");
       return 1;
